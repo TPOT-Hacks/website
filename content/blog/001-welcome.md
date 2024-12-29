@@ -1,7 +1,7 @@
 ---
 title: Welcome to TPOT Hacks
-date: "2023-12-24"
-author: The Team
+date: "2024-12-28"
+author: Kamdyn
 excerpt: A place for developers to come together, code for fun, and build something awesome as a team.
 ---
 
@@ -10,6 +10,7 @@ Welcome to TPOT Hacks! We're creating a space where developers can come together
 ## What is TPOT Hacks?
 
 TPOT Hacks is a weekly collaborative coding session where we all work together on the same project. Think of it as a continuous hackathon where we:
+
 - Pick interesting features or challenges to work on
 - Code together, review each other's work
 - Learn from different approaches and styles
@@ -18,6 +19,7 @@ TPOT Hacks is a weekly collaborative coding session where we all work together o
 ## How It Works
 
 Each week, we:
+
 1. Announce the next feature or challenge we'll tackle
 2. Discuss approaches and ideas on Discord
 3. Work on our implementations
@@ -37,15 +39,18 @@ Each week, we:
 Unlike traditional coding challenges where everyone works separately, we're building something together. Every PR and contribution makes our project better, and everyone gets to learn from each other's code.
 
 I'll be acting as the project manager, helping to:
+
 - Coordinate our efforts
 - Review and merge PRs
 - Keep the project organized
 - Guide discussions and decisions
 
-But remember - this is a team effort. Everyone's input matters, and we make decisions as a group.
+But remember - this is a team effort. Everyone's input matters, and we make decisions as a group. I won't be an overbearing project manager, but I will be here to help coordinate and guide the team. Anyone else with experience in project management is welcome to help out.
 
 ## What We'll Build
 
-We'll start with this website itself! It's open source, and we'll continuously improve it together. Each week, we'll tackle new features, improvements, or interesting technical challenges.
+We'll start with this website itself! It's open source, and we'll continuously improve it together.
 
-Ready to start coding with us? Join our Discord and let's build something awesome together! 
+Each week, we'll coordinate on the next hack we want to build.
+
+Ready to start coding with us? Join our Discord and let's build something awesome together!
