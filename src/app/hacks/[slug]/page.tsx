@@ -28,6 +28,7 @@ export default async function Page({ params }: PageProps) {
             <li><Link href="/" className="hover:text-gray-400">Home</Link></li>
             <li><Link href="/hacks" className="hover:text-gray-400">Hacks</Link></li>
             <li><Link href="/blog" className="hover:text-gray-400">Blog</Link></li>
+            <li><Link href="/contributors" className="hover:text-gray-400">Contributors</Link></li>
           </ul>
         </nav>
 
