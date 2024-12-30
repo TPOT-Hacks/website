@@ -34,6 +34,11 @@ export default async function Page() {
                                 Blog
                             </Link>
                         </li>
+                        <li>
+                            <Link href="/contributors" className="hover:text-gray-400">
+                                Blog
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
 
