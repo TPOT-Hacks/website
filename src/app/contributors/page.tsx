@@ -1,12 +1,7 @@
 import Link from "next/link";
 
-// Helper function to fetch contributors from GitHub
 async function getContributors() {
-    // Replace "facebook" and "react" with your own org/repo if desired
     const res = await fetch("https://api.github.com/repos/TPOT-Hacks/website/contributors", {
-        // If the repo is public, no auth is needed
-        // If the repo is private, you may need to provide a GitHub token:
-        // headers: { Authorization: `token ${process.env.GITHUB_TOKEN}` }
     });
 
     if (!res.ok) {
@@ -22,7 +17,6 @@ export default async function Page() {
     return (
         <div className="min-h-screen bg-black text-white font-mono">
             <div className="max-w-4xl mx-auto px-6 py-8">
-                {/* ------ Nav ------ */}
                 <nav className="mb-16 pt-8">
                     <ul className="flex space-x-6 text-sm">
                         <li>
@@ -43,9 +37,7 @@ export default async function Page() {
                     </ul>
                 </nav>
 
-                {/* ------ Main Content ------ */}
                 <main>
-                    {/* Header or sub-navigation (if any) */}
                     <div className="mt-16 pt-8 border-t border-gray-800 flex justify-between items-center">
                         <Link
                             href="/contributors"
@@ -97,7 +89,6 @@ export default async function Page() {
                     </section>
                 </main>
 
-                {/* ------ Footer ------ */}
                 <footer className="mt-16 pt-8 border-t border-gray-800 text-gray-400 text-sm">
                     <p>Built with Next.js. Join our discord to make this site better!</p>
                 </footer>
