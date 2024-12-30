@@ -36,7 +36,7 @@ export default async function Page() {
                         </li>
                         <li>
                             <Link href="/contributors" className="hover:text-gray-400">
-                                Blog
+                                Contributors
                             </Link>
                         </li>
                     </ul>
