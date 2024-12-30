@@ -10,6 +10,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "TPOT Hacks",
   description: "Weekly programming challenges and solutions",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
