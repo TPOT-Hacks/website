@@ -3,7 +3,7 @@ import Link from "next/link";
 async function getContributors() {
   const res = await fetch(
     "https://api.github.com/repos/TPOT-Hacks/website/contributors",
-    {},
+    { next: { revalidate: 3600 } },
   );
 
   if (!res.ok) {
