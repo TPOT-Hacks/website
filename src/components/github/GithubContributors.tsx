@@ -158,25 +158,6 @@ export default function GithubContributors({ orgName, githubToken }: GithubContr
   }
 
   return (
-    <div className="min-h-screen bg-black text-white font-mono">
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        <nav className="mb-16 pt-8">
-          <ul className="flex space-x-6 text-sm">
-            <li>
-              <Link href="/" className="hover:text-gray-400">Home</Link>
-            </li>
-            <li>
-              <Link href="/hacks" className="hover:text-gray-400">Hacks</Link>
-            </li>
-            <li>
-              <Link href="/blog" className="hover:text-gray-400">Blog</Link>
-            </li>
-            <li>
-              <Link href="/contributors" className="hover:text-gray-400">Contributors</Link>
-            </li>
-          </ul>
-        </nav>
-
         <main className="space-y-8">
           <h1 className="text-2xl font-bold">GitHub Contributors</h1>
           
@@ -257,12 +238,6 @@ export default function GithubContributors({ orgName, githubToken }: GithubContr
               </Card>
             ))}
           </div>
-
-          <footer className="mt-16 pt-8 border-t border-gray-800 text-gray-400 text-sm">
-            <p>Built with Next.js. Join our discord to make this site better!</p>
-          </footer>
-        </main>
-      </div>
-    </div>
+    </main>
   );
 } 
