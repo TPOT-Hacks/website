@@ -20,7 +20,7 @@ export default async function Page() {
                 <nav className="mb-16 pt-8">
                     <ul className="flex space-x-6 text-sm">
                         <li>
-                            <Link href="/public" className="hover:text-gray-400">
+                            <Link href="/" className="hover:text-gray-400">
                                 Home
                             </Link>
                         </li>
