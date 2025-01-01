@@ -45,7 +45,7 @@ export default async function Page() {
                 <main>
                     <div className="mt-16 pt-8 border-t border-gray-800 flex justify-between items-center">
                         <Link
-                            href="/contributors"
+                            href="/hacks"
                             className="text-sm text-gray-400 hover:text-gray-300 inline-flex items-center"
                         >
                             <svg
