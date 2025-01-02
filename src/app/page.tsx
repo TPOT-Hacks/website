@@ -49,7 +49,7 @@ export default function Home() {
             </p>
             
             <a 
-              href="https://discord.gg/dN758wQD" 
+              href="https://discord.gg/uzrmZQCJ8D" 
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-white text-black px-6 py-3 mt-4 hover:bg-gray-200 transition-colors"
