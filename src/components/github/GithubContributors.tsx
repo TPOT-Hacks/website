@@ -12,8 +12,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { fetchGithubData } from "./githubData";
 
-interface ContributorsPageProps {
+interface GithubContributorsProps {
   orgName: string;
   githubToken: string;
 }
@@ -21,7 +22,7 @@ interface ContributorsPageProps {
 export default function GithubContributors({
   orgName,
   githubToken,
-}: ContributorsPageProps) {
+}: GithubContributorsProps) {
   const [contributors, setContributors] = useState<ContributorData[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsData>({
     totalCommits: 0,
@@ -31,80 +32,42 @@ export default function GithubContributors({
     contributorsCount: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const loadData = async () => {
       try {
-        const query = `
-          query($orgName: String!) {
-            organization(login: $orgName) {
-              repositories(first: 100, orderBy: {field: UPDATED_AT, direction: DESC}) {
-                nodes {
-                  name
-                  defaultBranchRef {
-                    target {
-                      ... on Commit {
-                        history {
-                          nodes {
-                            author {
-                              user {
-                                login
-                                name
-                                avatarUrl
-                                contributionsCollection {
-                                  totalCommitContributions
-                                  totalIssueContributions
-                                  totalPullRequestContributions
-                                  totalPullRequestReviewContributions
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        `;
-
-        const response = await fetch("https://api.github.com/graphql", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${githubToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ query, variables: { orgName } }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch data from GitHub API");
-        }
-
-        const data = await response.json();
-
-        if (data.errors) {
-          throw new Error(data.errors[0].message);
-        }
-        const processedData = processContributorData(data);
-        setContributors(processedData.contributors);
-        setAnalytics(processedData.analytics);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        setLoading(true);
+        setError(null);
+        const data = await fetchGithubData(orgName, githubToken);
+        setContributors(data.contributors);
+        setAnalytics(data.analytics);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        console.error("Error loading data:", err);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
+    loadData();
   }, [orgName, githubToken]);
 
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center text-red-500">
+          <h2 className="text-xl font-bold">Error</h2>
+          <p>{error}</p>
+        </div>
       </div>
     );
   }
@@ -140,61 +103,4 @@ export default function GithubContributors({
       </Card>
     </div>
   );
-}
-
-function processContributorData(data: any) {
-  const contributorsMap = new Map<string, ContributorData>();
-  let totalCommits = 0;
-  let totalPRs = 0;
-  let totalIssues = 0;
-  let totalReviews = 0;
-
-  data.data.organization.repositories.nodes.forEach((repo: any) => {
-    const commits = repo.defaultBranchRef?.target?.history?.nodes || [];
-    commits.forEach((commit: any) => {
-      const user = commit.author?.user;
-      if (user) {
-        if (!contributorsMap.has(user.login)) {
-          const contributions = user.contributionsCollection;
-          totalCommits += contributions.totalCommitContributions;
-          totalPRs += contributions.totalPullRequestContributions;
-          totalIssues += contributions.totalIssueContributions;
-          totalReviews += contributions.totalPullRequestReviewContributions;
-
-          contributorsMap.set(user.login, {
-            login: user.login,
-            name: user.name,
-            avatarUrl: user.avatarUrl,
-            ...contributions,
-            repositories: [repo.name],
-            repositoryCount: 1,
-            totalContributions:
-              contributions.totalCommitContributions +
-              contributions.totalPullRequestContributions +
-              contributions.totalIssueContributions +
-              contributions.totalPullRequestReviewContributions,
-          });
-        } else {
-          const contributor = contributorsMap.get(user.login)!;
-          if (!contributor.repositories.includes(repo.name)) {
-            contributor.repositories.push(repo.name);
-            contributor.repositoryCount = contributor.repositories.length;
-          }
-        }
-      }
-    });
-  });
-
-  return {
-    contributors: Array.from(contributorsMap.values()).sort(
-      (a, b) => b.totalContributions - a.totalContributions,
-    ),
-    analytics: {
-      totalCommits,
-      totalPRs,
-      totalIssues,
-      totalReviews,
-      contributorsCount: contributorsMap.size,
-    },
-  };
 }
