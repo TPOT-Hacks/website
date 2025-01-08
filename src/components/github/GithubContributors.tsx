@@ -35,36 +35,27 @@ export default function GithubContributors({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://api.github.com/graphql", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${githubToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: `
-              query($orgName: String!) {
-                organization(login: $orgName) {
-                  repositories(first: 100, orderBy: {field: UPDATED_AT, direction: DESC}) {
-                    nodes {
-                      name
-                      defaultBranchRef {
-                        target {
-                          ... on Commit {
-                            history {
-                              nodes {
-                                author {
-                                  user {
-                                    login
-                                    name
-                                    avatarUrl
-                                    contributionsCollection {
-                                      totalCommitContributions
-                                      totalIssueContributions
-                                      totalPullRequestContributions
-                                      totalPullRequestReviewContributions
-                                    }
-                                  }
+        const query = `
+          query($orgName: String!) {
+            organization(login: $orgName) {
+              repositories(first: 100, orderBy: {field: UPDATED_AT, direction: DESC}) {
+                nodes {
+                  name
+                  defaultBranchRef {
+                    target {
+                      ... on Commit {
+                        history {
+                          nodes {
+                            author {
+                              user {
+                                login
+                                name
+                                avatarUrl
+                                contributionsCollection {
+                                  totalCommitContributions
+                                  totalIssueContributions
+                                  totalPullRequestContributions
+                                  totalPullRequestReviewContributions
                                 }
                               }
                             }
@@ -75,12 +66,28 @@ export default function GithubContributors({
                   }
                 }
               }
-            `,
-            variables: { orgName },
-          }),
+            }
+          }
+        `;
+
+        const response = await fetch("https://api.github.com/graphql", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${githubToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query, variables: { orgName } }),
         });
 
+        if (!response.ok) {
+          throw new Error("Failed to fetch data from GitHub API");
+        }
+
         const data = await response.json();
+
+        if (data.errors) {
+          throw new Error(data.errors[0].message);
+        }
         const processedData = processContributorData(data);
         setContributors(processedData.contributors);
         setAnalytics(processedData.analytics);
